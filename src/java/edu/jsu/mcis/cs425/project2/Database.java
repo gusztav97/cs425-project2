@@ -103,8 +103,6 @@ public class Database {
             conn = getConnection();
             query = "SELECT DISTINCT jobs.id, jobs.name, " +
                 "IF ((SELECT COUNT(*) > 0 FROM applicants_to_jobs " +
-                "AS status " +
-                "FROM jobs " +
                 "WHERE jobsid = jobs.id AND userid = '1'), 'checked', '') " +
                 "JOIN skills_to_jobs " +
                 "ON jobs.id = skills_to_jobs.jobsid " +
@@ -142,14 +140,13 @@ public class Database {
         try {
             Connection conn = getConnection();
             String query = "DELETE FROM applicants_to_skills WHERE userId = '" + id + "';";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.execute(query);
+            PreparedStatement pstatement = conn.prepareStatement(query);
+            pstatement.execute(query);
             String values = "";
             
             for (int i = 0; i < skills.length; i++){
                 values += "(" + id + ", " + Integer.parseInt(skills[i]) + ")";
-                if ((i + 1) < skills.length)
-                {
+                if ((i + 1) < skills.length){
                     values += ", ";
                 }
                 else {
@@ -168,14 +165,13 @@ public class Database {
         try {
             Connection conn = getConnection();
             String query = "DELETE FROM applicants_to_jobs WHERE userId = '" + id + "';";
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.execute(query);
+            PreparedStatement pstatement = conn.prepareStatement(query);
+            pstatement.execute(query);
             
             String values = "";
             for (int i = 0; i < jobs.length; i++){
                 values += "(" + id + ", " + Integer.parseInt(jobs[i]) + ")";
-                if ((i + 1) < jobs.length)
-                {
+                if ((i + 1) < jobs.length){
                     values += ", ";
                 }
                 else {
